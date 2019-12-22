@@ -24,7 +24,7 @@
   (reify client/Client
          (open! [_ test node] (java-client (Client/openClient test node)))
          (invoke! [client test op] 
-	     (let [result (Client/invoke args)]
+	     (let [result (Client/invokeClient args)]
 	         (if result
 			(assoc op :type :ok)
 			(assoc op :type :fail) 
