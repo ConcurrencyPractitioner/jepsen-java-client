@@ -43,20 +43,23 @@
                 (Client/teardownDatabase test node))))
 
 
+(defn dummyOp [_ _] {:type :invoke, :f :dummyOp})
+
 (defn java-client-test [opts] "Test to be run"
   (merge tests/noop-test
          opts
          {:name "shiva"
           :client (java-client nil)
           :db (db nil)
-	  ;:nemesis (nemesis/partition-majorities-ring)
-          ;:generator (->> (gen/mix ) ;ignore this comment, too lazy to delete :P disabled scan because of strange behavior
-          ;                (gen/stagger 1)
-          ;                (gen/nemesis (gen/seq (cycle [(gen/sleep 30)
-          ;                                             {:type :info, :f :start}
-          ;                                             (gen/sleep 30)
-          ;                                             {:type :info, :f :stop}])))
-          ;                (gen/time-limit (:time-limit opts)))
+	  ;:nemesis (nemesis/partition-random-halves) - give user the ability to choose the type of fault injection?
+          :generator (->> (gen/mix [dummyOp]) ; this operation is just as the name suggests, a dummy, it doesn't do anything
+					      ; we will leave the operation randomization to the user
+                          (gen/stagger 1)
+                          (gen/nemesis nil) ;(gen/seq (cycle [(gen/sleep 30)
+                                            ;                {:type :info, :f :start}
+                                            ;                (gen/sleep 30)
+                                            ;                {:type :info, :f :stop}])))
+                          (gen/time-limit (:time-limit opts)))
           :checker (checker/compose {; add own latency checker here
                                       :perf (checker/perf)
                                     })})
