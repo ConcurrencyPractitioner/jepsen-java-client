@@ -22,8 +22,9 @@
 (defn java-client "Method which returns client based on protocol"
   [args]
   (reify client/Client
-         (open! [_ test node] (java-client (Client/openClient test node)))
-         (invoke! [client test op] 
+	 (setup! [_ _] )
+	 (open! [_ test node] (java-client (Client/openClient test node)))
+	 (invoke! [client test op] 
 	     (let [result (Client/invokeClient args)]
 	         (if result
 			(assoc op :type :ok)
