@@ -45,13 +45,19 @@
 
 (defn dummyOp [_ _] {:type :invoke, :f :dummyOp})
 
+(defn determineNemesis [nemesisName] 
+      (case nemesisName
+        "partition-majorities-ring" (nemesis/partition-majorities-ring)
+        "partition-random-halves"  (nemesis/partition-random-halves)
+      ))
+
 (defn java-client-test [opts] "Test to be run"
   (merge tests/noop-test
          opts
          {:name "shiva"
           :client (java-client nil)
           :db (db nil)
-	  ;:nemesis (nemesis/partition-random-halves) - give user the ability to choose the type of fault injection?
+	  ;:nemesis (determineNemesis (Client/getNemesis)) 
           :generator (->> (gen/mix [dummyOp]) ; this operation is just as the name suggests, a dummy, it doesn't do anything
 					      ; we will leave the operation randomization to the user
                           (gen/stagger 1)
