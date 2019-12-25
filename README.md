@@ -10,7 +10,7 @@ This is a Java wrapper for the Jepsen fault tolerance testing framework which is
 ## Running the test
 
 There are a couple of simple steps to run this test:
-  1. Implement the client, database, and checker callbacks provided in the Java class provided. For further info on what each      of these is supposed to do, please look to the tutorial for reference.
+  1. Implement the client, database, and checker callbacks provided in the Java class. For further info on what each of these      is supposed to do, please look to the tutorial for reference.
   2. Use ```lein run test``` to run the test. There might be other arguments that need to be entered. A comprehensive list is      available in the introduction of the tutorial.
 
 It should be helpful to know a couple of things when running the test. Jepsen requires that the shell one is attempting to ```ssh``` onto has remote login enabled. Typically, it is turned off by default, and consequently, that means the ```jepsen``` daemon is unable to connect to the node/host provided. 
