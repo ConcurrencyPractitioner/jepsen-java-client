@@ -25,7 +25,7 @@
 	 (setup! [_ _] )
 	 (open! [_ test node] (java-client (Client/openClient test node)))
 	 (invoke! [client test op] 
-	     (let [result (Client/invokeClient args)]
+	     (let [result (Client/invokeClient args (:f op) (:value op))]
 	         (if result
 			(assoc op :type :ok)
 			(assoc op :type :fail) 
@@ -43,7 +43,10 @@
                 (Client/teardownDatabase test node))))
 
 
-(defn dummyOp [_ _] {:type :invoke, :f :dummyOp})
+(defn clientOp [_ _] 
+    (let [op (Client/generateOp)]
+        {:type :invoke, :f op, :value (Client/getValue op)})
+)
 
 (defn determineNemesis [nemesisName] 
       (case nemesisName
@@ -58,7 +61,7 @@
           :client (java-client nil)
           :db (db nil)
 	  ;:nemesis (determineNemesis (Client/getNemesis)) 
-          :generator (->> (gen/mix [dummyOp]) ; this operation is just as the name suggests, a dummy, it doesn't do anything
+          :generator (->> (gen/mix [clientOp]) ; this operation is just as the name suggests, a dummy, it doesn't do anything
 					      ; we will leave the operation randomization to the user
                           (gen/stagger 1)
                           (gen/nemesis nil) ;(gen/seq (cycle [(gen/sleep 30)
