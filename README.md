@@ -14,3 +14,6 @@ There are a couple of simple steps to run this test:
   2. Use ```lein run test``` to run the test. There might be other arguments that need to be entered. A comprehensive list is      available in the introduction of the tutorial.
 
 It should be helpful to know a couple of things when running the test. Jepsen requires that the shell one is attempting to ```ssh``` onto has remote login enabled. Typically, it is turned off by default, and consequently, that means the ```jepsen``` daemon is unable to connect to the node/host provided. 
+
+Tutorial link below:
+https://github.com/ConcurrencyPractitioner/jepsen-java-client/blob/master/doc/tutorial.md
