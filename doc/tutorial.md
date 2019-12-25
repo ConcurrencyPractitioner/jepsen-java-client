@@ -2,6 +2,9 @@
 
 As of the moment, all of the methods in the Client java file found under ```src/user/jepsen/``` should all be tailored to each individual user's requirements. Below explains the expected behavior of each method.
 
+For a list of ```linux``` parameters which should be run with the test, please look here:
+https://github.com/ConcurrencyPractitioner/jepsen-java-client/blob/master/doc/parameters.md
+
 ## How to run Jepsen Java Client
 
 Jepsen is split into several components: Client, Database, Checker, and Nemesis. These serve as the few major parts of Jepsen
