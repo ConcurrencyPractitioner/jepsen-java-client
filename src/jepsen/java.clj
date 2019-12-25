@@ -26,9 +26,9 @@
 	 (open! [_ test node] (java-client (Client/openClient test node)))
 	 (invoke! [client test op] 
 	     (let [result (Client/invokeClient args (:f op) (:value op))]
-	         (if result
-			(assoc op :type :ok)
-			(assoc op :type :fail) 
+	         (if (nil? result)
+			(assoc op :type :fail :value 0)
+			(assoc op :type :ok :value result) 
 		))
 	 )
          (teardown! [_ test]
