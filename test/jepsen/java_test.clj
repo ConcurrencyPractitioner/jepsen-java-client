@@ -3,5 +3,5 @@
             [jepsen.java :refer :all]))
 
 (deftest a-test
-  (testing "FIXME, I fail."
+  (testing "Dummy test"
     (is (= 1 1))))
