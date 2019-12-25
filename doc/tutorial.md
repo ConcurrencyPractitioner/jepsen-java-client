@@ -7,7 +7,7 @@ As of the moment, all of the methods in the Client java file found under ```src/
 Jepsen is split into several components: Client, Database, Checker, and Nemesis. These serve as the few major parts of Jepsen
 's framework and each of their roles is described below in detail.
 
-- Note: Do not change any of the method names or the number of input arguments it takes in as it will break the test -
+- Note: Do not change any of the method names or the number of input arguments it takes in as it will break the test 
 
 ### Client
 
