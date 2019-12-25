@@ -60,14 +60,14 @@
          {:name "shiva"
           :client (java-client nil)
           :db (db nil)
-	  ;:nemesis (determineNemesis (Client/getNemesis)) 
+	  :nemesis (determineNemesis (Client/getNemesis)) 
           :generator (->> (gen/mix [clientOp]) ; this operation is just as the name suggests, a dummy, it doesn't do anything
 					      ; we will leave the operation randomization to the user
                           (gen/stagger 1)
-                          (gen/nemesis nil) ;(gen/seq (cycle [(gen/sleep 30)
-                                            ;                {:type :info, :f :start}
-                                            ;                (gen/sleep 30)
-                                            ;                {:type :info, :f :stop}])))
+                          (gen/nemesis (gen/seq (cycle [(gen/sleep 30)
+                                                        {:type :info, :f :start}
+                                                        (gen/sleep 30)
+                                                        {:type :info, :f :stop}])))
                           (gen/time-limit (:time-limit opts)))
           :checker (checker/compose {; add own latency checker here
                                       :perf (checker/perf)
