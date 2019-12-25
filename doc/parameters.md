@@ -1,3 +1,6 @@
+
+## Parameter List
+
 Below are the list of parameters which should be used with the ```lein run test``` command:
 
 1. ```nodes```: These should be the nodes that Jepsen would operate on as well as the nodes on which the database cluster will be run.
