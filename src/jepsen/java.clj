@@ -61,8 +61,8 @@
           :client (java-client nil)
           :db (db nil)
 	  :nemesis (determineNemesis (Client/getNemesis)) 
-          :generator (->> (gen/mix [clientOp]) ; this operation is just as the name suggests, a dummy, it doesn't do anything
-					      ; we will leave the operation randomization to the user
+          :generator (->> (gen/mix [clientOp]) ; this operation is just as the name suggests, chosen by the client
+					       ; we will leave the operation selection to the user
                           (gen/stagger 1)
                           (gen/nemesis (gen/seq (cycle [(gen/sleep 30)
                                                         {:type :info, :f :start}
