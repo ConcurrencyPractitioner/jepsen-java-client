@@ -1,7 +1,5 @@
 (ns jepsen.java
-  (:gen-class
-     :name jepsen.clj.main
-     :methods [#^{static true} [main [clojure.lang.ArraySeq] void]])
+  (:gen-class)
   (:require [clojure.java.io :as io]
             [clojure.core.reducers :as r]
             [clojure.tools.logging :refer :all]
@@ -18,7 +16,8 @@
             [jepsen.os.centos :as centos]
             [jepsen.control.util :as control-util]
             [jepsen.client :as client])
-  (:import [user.jepsen Client])
+  (:import [user.jepsen Client]
+	   [jepsen.interfaces JepsenCore])
 )
 
 (defn java-client "Method which returns client based on protocol"
@@ -77,10 +76,14 @@
 )
 
 (defn main [args]
-  (Client/printType args)
   (info args)
   (cli/run! (merge (cli/single-test-cmd {:test-fn java-client-test})
                    (cli/serve-cmd)) args)
+)
+
+(defn JepsenTest "Function to trigger test"
+  []
+  (reify JepsenCore (execTest [this args] (main args)))
 )
 
 (defn -main [& args] "Main method from which test is launched and also place from which Java will call this function." 
