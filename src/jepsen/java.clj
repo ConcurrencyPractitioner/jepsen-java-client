@@ -1,5 +1,7 @@
 (ns jepsen.java
-  (:gen-class)
+  (:gen-class
+     :name jepsen.clj.main
+     :methods [#^{static true} [main [clojure.lang.ArraySeq] void]])
   (:require [clojure.java.io :as io]
             [clojure.core.reducers :as r]
             [clojure.tools.logging :refer :all]
@@ -55,7 +57,7 @@
       ))
 
 (defn java-client-test [opts] "Test to be run"
-  (merge tests/noop-test
+   (merge tests/noop-test
          opts
          {:name "shiva"
           :client (java-client nil)
@@ -74,8 +76,13 @@
                                     })})
 )
 
-(defn -main [& args] "Main method from which test is launched" 
+(defn main [args]
+  (Client/printType args)
+  (info args)
   (cli/run! (merge (cli/single-test-cmd {:test-fn java-client-test})
-                   (cli/serve-cmd))
-             args)  
+                   (cli/serve-cmd)) args)
+)
+
+(defn -main [& args] "Main method from which test is launched and also place from which Java will call this function." 
+  (main args)
 )
