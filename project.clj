@@ -6,5 +6,6 @@
   :dependencies [[org.clojure/clojure "1.10.0"]
 		 [jepsen "0.1.13"]]
   :main jepsen.java
+  :aot :all
   :java-source-paths ["src/"]
   :repl-options {:init-ns jepsen.java})
