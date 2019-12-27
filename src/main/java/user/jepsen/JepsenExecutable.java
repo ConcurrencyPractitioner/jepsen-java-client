@@ -13,7 +13,7 @@ public class JepsenExecutable {
     public JepsenExecutable(final String nodes, final String username, final String password, final long timeLimit) {
     	this.nodes = nodes;
 	this.username = username;
-	this.password = passsword;
+	this.password = password;
 	this.timeLimit = timeLimit;
     }
     public void launchTest() {
