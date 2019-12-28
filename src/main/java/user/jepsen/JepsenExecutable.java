@@ -6,7 +6,7 @@ import clojure.lang.IFn;
 import jepsen.interfaces.JepsenCore;
 
 public class JepsenExecutable {
-    private static final JepsenCore jepsenCore = (JepsenCore) Clojure.var("jepsen.interfaces", "JepsenTest").invoke();
+    private final JepsenCore jepsenCore = (JepsenCore) Clojure.var("jepsen.interfaces", "JepsenTest").invoke();
     private final long timeLimit;
     private final String nodes;
     private final String username, password;

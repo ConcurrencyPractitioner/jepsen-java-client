@@ -6,6 +6,7 @@ import user.jepsen.JepsenExecutable;
 
 public class JepsenMain {
     public static void main(String[] args) {
-    	System.out.println("Hello, this is the main class being executed!");
+    	JepsenExecutable exec = new JepsenExecutable("Richards-Macbook-Air-2.local", "richardyu", "jinjin123", 10);
+        exec.launchTest();
     }
 }
