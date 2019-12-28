@@ -19,7 +19,7 @@ dependencies {
 }
 
 ext {
-    javaMainClass = "src/main/java/JepsenMain.java"
+    javaMainClass = "exe.JepsenMain"
 }
 
 task runMain(type: JavaExec) {
