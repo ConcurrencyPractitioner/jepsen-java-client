@@ -17,6 +17,6 @@ public class JepsenExecutable {
 	this.timeLimit = timeLimit;
     }
     public void launchTest() {
-	jepsenCore.execTest(ArraySeq.create("test", "--nodes", nodes, "--username", username, "--password", password, "--time-limit", timeLimit));
+	jepsenCore.execTest(ArraySeq.create("test", "--nodes", nodes, "--username", username, "--password", password, "--time-limit", timeLimit).toString());
     }
 }
