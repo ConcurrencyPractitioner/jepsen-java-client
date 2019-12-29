@@ -62,8 +62,8 @@
          {:name "shiva"
           :client (java-client nil)
           :db (db nil)
-	  ;:nemesis (determineNemesis (-> (:client @userClient) (.getNemesis)) 
-          :generator (->> (gen/mix [clientOp]) ; thi`s operation is just as the name suggests, chosen by the client
+	  :nemesis (determineNemesis (-> (:client @userClient) (.getNemesis))) 
+          :generator (->> (gen/mix [clientOp]) ; this operation is just as the name suggests, chosen by the client
 					       ; we will leave the operation selection to the user
                           (gen/stagger 1)
                           (gen/nemesis (gen/seq (cycle [(gen/sleep 30)
@@ -77,7 +77,6 @@
 )
 
 (defn main [args]
-  (info args)
   (cli/run! (merge (cli/single-test-cmd {:test-fn java-client-test})
                    (cli/serve-cmd)) args)
 )
