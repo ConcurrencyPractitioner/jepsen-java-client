@@ -4,9 +4,12 @@ import clojure.lang.ArraySeq;
 import clojure.java.api.Clojure;
 import clojure.lang.IFn;
 import jepsen.interfaces.JepsenCore;
+import clojure.lang.RT;
+import java.util.*;
+import java.lang.*;
+import java.io.*;
 
 public class JepsenExecutable {
-    private final JepsenCore jepsenCore = (JepsenCore) Clojure.var("jepsen.interfaces", "JepsenTest").invoke();
     private final long timeLimit;
     private final String nodes;
     private final String username, password;
@@ -17,6 +20,10 @@ public class JepsenExecutable {
 	this.timeLimit = timeLimit;
     }
     public void launchTest() {
-	jepsenCore.execTest(ArraySeq.create("test", "--nodes", nodes, "--username", username, "--password", password, "--time-limit", timeLimit));
+        try {
+	    RT.loadResourceScript("jepsen/interfaces/main.clj", true);
+	    String[] args = {"test", "--nodes", nodes, "--username", username, "--password", password, "--time-limit", Long.toString(timeLimit)};
+	    RT.var("jepsen.interfaces", "main").invoke(args);
+        } catch (IOException exc) { System.out.println("Found exception " + exc); }
     }
 }
