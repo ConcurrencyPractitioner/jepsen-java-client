@@ -28,3 +28,7 @@ task runMain(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = javaMainClass
 }
+
+task compileJava(type: JavaCompile) {
+
+}
