@@ -1,6 +1,6 @@
 # Tutorial
 
-As of the moment, all of the methods in the Client java file found under ```src/user/jepsen/``` should all be tailored to each individual user's requirements. Below explains the expected behavior of each method.
+As of the moment, all of the methods in the Client java file found under ```user.jepsen``` package should all be tailored to each individual user's requirements. Below explains the expected behavior of each method.
 
 For a list of ```linux``` parameters which should be run with the test, please look here:
 https://github.com/ConcurrencyPractitioner/jepsen-java-client/blob/master/doc/parameters.md
@@ -9,8 +9,6 @@ https://github.com/ConcurrencyPractitioner/jepsen-java-client/blob/master/doc/pa
 
 Jepsen is split into several components: Client, Database, Checker, and Nemesis. These serve as the few major parts of Jepsen
 's framework and each of their roles is described below in detail.
-
-- Note: Do not change any of the method names or the number of input arguments it takes in as it will break the test 
 
 ### Client
 
@@ -34,7 +32,7 @@ Will be available in future release. Coming soon.
 
 ### Nemesis
 
-The user can choose from a variety of failures that Jepsen can run on the test cluster. For the types available, please see Jepsen's nemesis documentation here: https://github.com/jepsen-io/jepsen/blob/master/doc/tutorial/05-nemesis.md
+The user can choose from a variety of failures that Jepsen can run on the test cluster. For documentation about the types available, please see Jepsen's nemesis documentation here: https://github.com/jepsen-io/jepsen/blob/master/doc/tutorial/05-nemesis.md
 
 The current options supported are:
   1. partition-majorities-ring
