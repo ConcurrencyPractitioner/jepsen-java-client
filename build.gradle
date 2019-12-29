@@ -27,4 +27,4 @@ task runMain(type: JavaExec) {
     description = "Run the main class with JavaExecTask"
     classpath = sourceSets.main.runtimeClasspath
     main = javaMainClass
-
+}
