@@ -1,7 +1,7 @@
 
 ## Parameter List
 
-Below are the list of parameters which should be used with the ```lein run test``` command:
+Below are the list of parameters which should be used to construct the ```JepsenExecutable``` instance:
 
 1. ```nodes```: These should be the nodes that Jepsen would operate on as well as the nodes on which the database cluster will be run.
 
@@ -11,7 +11,10 @@ Below are the list of parameters which should be used with the ```lein run test`
 
 4. ```time-limit```: (Optional, but highly advised) Sets the time limit of the test. Should be used. Defines the length of test in seconds.
 
-An example command would be:
+An example instance would be:
 ``` 
-lein run test --nodes Bobs-MacBook-Air-2.local --username bobewell --password birthday --time-limit 10
+String nodes = "host1:port1, host2:port2";
+String username = "root";
+String password = "root";
+JepsenExecutable exec = new JepsenExecutable(nodes, username, password, 10); // 10 second timelimit
 ```
