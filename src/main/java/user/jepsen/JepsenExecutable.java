@@ -3,7 +3,6 @@ package user.jepsen;
 import clojure.lang.ArraySeq;
 import clojure.java.api.Clojure;
 import clojure.lang.IFn;
-import jepsen.interfaces.JepsenCore;
 import clojure.lang.RT;
 import java.util.*;
 import java.lang.*;
