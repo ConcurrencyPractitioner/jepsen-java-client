@@ -2,6 +2,9 @@
 
 As of the moment, all of the methods in the Client java file found under ```user.jepsen``` package should all be tailored to each individual user's requirements. Below explains the expected behavior of each method.
 
+For an example of a Jepsen test, see sample:
+https://github.com/ConcurrencyPractitioner/jepsen-java-client/blob/master/src/main/java/exe/JepsenMain.java
+
 For a list of ```linux``` parameters which should be run with the test, please look here:
 https://github.com/ConcurrencyPractitioner/jepsen-java-client/blob/master/doc/parameters.md
 
