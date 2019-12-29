@@ -19,33 +19,35 @@
   (:import [user.jepsen Client])
 )
 
+(def userClient (atom {:client nil}))
+
 (defn java-client "Method which returns client based on protocol"
   [args]
   (reify client/Client
 	 (setup! [_ _] )
-	 (open! [_ test node] (java-client (Client/openClient test node)))
+	 (open! [_ test node] (java-client (-> (:client @userClient) (.openClient test node))))
 	 (invoke! [client test op] 
-	     (let [result (Client/invokeClient args (:f op) (:value op))]
+	     (let [result (-> (:client @userClient) (.invokeClient args (:f op) (:value op)))]
 	         (if (nil? result)
 			(assoc op :type :fail :value 0)
 			(assoc op :type :ok :value result) 
 		))
 	 )
          (teardown! [_ test]
-             (Client/teardownClient args)
+             (-> (:client @userClient) (.teardownClient args))
          )))
 
 (defn db [args] "Helps setup and teardown cluster of database being tested"
   (reify db/DB
          (setup! [_ test node]
-                (Client/setUpDatabase test node))
+                (-> (:client @userClient) (.setUpDatabase test node)))
          (teardown! [_ test node]
-                (Client/teardownDatabase test node))))
+                (-> (:client @userClient) (.teardownDatabase test node)))))
 
 
 (defn clientOp [_ _] 
-    (let [op (Client/generateOp)]
-        {:type :invoke, :f op, :value (Client/getValue op)})
+    (let [op (-> (:client @userClient) (.generateOp))]
+        {:type :invoke, :f op, :value (-> (:client @userClient) (.getValue op))})
 )
 
 (defn determineNemesis [nemesisName] 
@@ -60,8 +62,8 @@
          {:name "shiva"
           :client (java-client nil)
           :db (db nil)
-	  ;:nemesis (determineNemesis (Client/getNemesis)) 
-          :generator (->> (gen/mix [clientOp]) ; this operation is just as the name suggests, chosen by the client
+	  ;:nemesis (determineNemesis (-> (:client @userClient) (.getNemesis)) 
+          :generator (->> (gen/mix [clientOp]) ; thi`s operation is just as the name suggests, chosen by the client
 					       ; we will leave the operation selection to the user
                           (gen/stagger 1)
                           (gen/nemesis (gen/seq (cycle [(gen/sleep 30)
@@ -78,6 +80,10 @@
   (info args)
   (cli/run! (merge (cli/single-test-cmd {:test-fn java-client-test})
                    (cli/serve-cmd)) args)
+)
+
+(defn setClient [localClient]
+  (swap! userClient assoc :client localClient)
 )
 
 (defn -main [& args] "Main method from which test is launched and also place from which Java will call this function." 
