@@ -11,3 +11,7 @@ This project has been officially transformed into a Java library. (We have migra
 https://github.com/ConcurrencyPractitioner/jepsen-java-client/blob/master/src/main/java/exe/JepsenMain.java
 
 This should be far easer to maintain and scale depending on the user's needs.
+
+## 1.0.1 - 2019-12-29
+
+Hotfix: Enable fault injection, previously commented it out.
