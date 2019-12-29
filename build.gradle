@@ -22,18 +22,9 @@ ext {
     javaMainClass = "exe.JepsenMain"
 }
 
-sourceSets {
-    main {
-        resources {
-            srcDirs "src/main/resources", "src/main/configs"
-        }
-    }
-}
-
 task runMain(type: JavaExec) {
     group = "Execution"
     description = "Run the main class with JavaExecTask"
     classpath = sourceSets.main.runtimeClasspath
     main = javaMainClass
 }
-
