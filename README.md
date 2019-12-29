@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.com/ConcurrencyPractitioner/jepsen-java-client.svg?branch=master)](https://travis-ci.com/ConcurrencyPractitioner/jepsen-java-client)
 [![License](https://img.shields.io/badge/License-EPL%202.0-blue.svg)](https://opensource.org/licenses/EPL-2.0)
+Latest version: v1.0.0, Available here:
+https://github.com/ConcurrencyPractitioner/jepsen-java-client/releases
 
 ## Design
 
