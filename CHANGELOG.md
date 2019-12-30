@@ -15,3 +15,7 @@ This should be far easer to maintain and scale depending on the user's needs.
 ## 1.0.1 - 2019-12-29
 
 Hotfix: Enable fault injection, previously commented it out.
+
+## 1.0.2 - 2019-12-30
+
+Removed a useless test object in the Client interface. It leaks information from internals which is not preferred. This is meant to help streamline some of the methods.
