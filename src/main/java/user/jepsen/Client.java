@@ -8,12 +8,12 @@ public interface Client {
     /**
      * This method should be used to first install a database server onto the given node, and then launch it so that it is ready to receive operations.
      */
-    public Object setUpDatabase(Object test, String node);
+    public Object setUpDatabase(String node);
 
     /**
      * Conversely to {@code setUpDatabase(Object, String)}, this method should first stop the database server, and then uninstall it.
      */
-    public void teardownDatabase(Object test, String node);
+    public void teardownDatabase(String node);
 
     /**
      * The client is a connection to the server through which operations are sent (such as reads, writes, and compare and sets (CASs)).
@@ -33,7 +33,7 @@ public interface Client {
      * As the name suggests, the user should open a connection to the database cluster by constructing a client.
      * @param node The IP address of the cluster which the user should connect to.
      */
-    public void openClient(Object test, String node);
+    public void openClient(String node);
     
     /**
      * This is chosen upon the initialization of the test. The user can currently choose from the two following options:

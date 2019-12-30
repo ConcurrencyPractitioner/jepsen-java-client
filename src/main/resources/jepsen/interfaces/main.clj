@@ -25,7 +25,7 @@
   [args]
   (reify client/Client
 	 (setup! [_ _] )
-	 (open! [_ test node] (java-client (-> (:client @userClient) (.openClient test node))))
+	 (open! [_ test node] (java-client (-> (:client @userClient) (.openClient node))))
 	 (invoke! [client test op] 
 	     (let [result (-> (:client @userClient) (.invokeClient args (:f op) (:value op)))]
 	         (if (nil? result)
@@ -40,9 +40,9 @@
 (defn db [args] "Helps setup and teardown cluster of database being tested"
   (reify db/DB
          (setup! [_ test node]
-                (-> (:client @userClient) (.setUpDatabase test node)))
+                (-> (:client @userClient) (.setUpDatabase node)))
          (teardown! [_ test node]
-                (-> (:client @userClient) (.teardownDatabase test node)))))
+                (-> (:client @userClient) (.teardownDatabase node)))))
 
 
 (defn clientOp [_ _] 
@@ -62,7 +62,7 @@
          {:name "shiva"
           :client (java-client nil)
           :db (db nil)
-	  :nemesis (determineNemesis (-> (:client @userClient) (.getNemesis))) 
+	  ;:nemesis (determineNemesis (-> (:client @userClient) (.getNemesis))) 
           :generator (->> (gen/mix [clientOp]) ; this operation is just as the name suggests, chosen by the client
 					       ; we will leave the operation selection to the user
                           (gen/stagger 1)
