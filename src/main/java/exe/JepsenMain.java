@@ -10,15 +10,15 @@ public class JepsenMain {
     public static class NoopClient implements Client {
         public NoopClient() {}
  
-        public Object setUpDatabase(String node) { System.out.println("Setup DB"); return null; }
+        public Object setUpDatabase(String node) { System.out.println("Setup DB"); return "NOOP_DB"; }
 
         public void teardownDatabase(String node) { System.out.println("Torndown DB"); }
 
-        public void teardownClient(Object args) { System.out.println("Torndown client"); }
+        public void teardownClient(Object args) { System.out.println("Torndown client " + args); }
 
         public Object invokeClient(Object args, String opName, Object inputValue) { System.out.println("Invoked client op " + opName + " with input value "  + inputValue); return true; }
 
-        public void openClient(String node) { System.out.println("Have opened client"); }
+        public Object openClient(String node) { System.out.println("Have opened client"); return "NOOP_CLIENT"; }
 
         public String getNemesis() { return "partition-random-halves"; }
 
@@ -28,7 +28,7 @@ public class JepsenMain {
     }
 
     public static void main(String[] args) {
-    	JepsenExecutable exec = new JepsenExecutable("Bobs-Macbook-Air-2.local", "bob", "bob is king", 10, new NoopClient());
+    	JepsenExecutable exec = new JepsenExecutable("Richards-Macbook-Air-2.local", "richardyu", "jinjin123", 10, new NoopClient());
         exec.launchTest();
     }
 }

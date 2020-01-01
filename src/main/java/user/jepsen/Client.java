@@ -17,7 +17,8 @@ public interface Client {
 
     /**
      * The client is a connection to the server through which operations are sent (such as reads, writes, and compare and sets (CASs)).
-     * @param args This argument should be changed according to user requirements. It should be the client instance that represents the pipe between user and server. 
+     * @param args This argument should be changed according to user requirements. It should be the client instance that represents the pipe between user and server
+     *             and is the result returned by {@code openClient(String)} 
      */
     public void teardownClient(Object args);
 
@@ -32,8 +33,10 @@ public interface Client {
     /**
      * As the name suggests, the user should open a connection to the database cluster by constructing a client.
      * @param node The IP address of the cluster which the user should connect to.
+     * @return the client instance that is connected to the cluster, would be passed in as the first parameter for {@code invokeClient(Object, opName, inputValue)}
+     *         and {@code teardownClient(Object)}
      */
-    public void openClient(String node);
+    public Object openClient(String node);
     
     /**
      * This is chosen upon the initialization of the test. The user can currently choose from the two following options:

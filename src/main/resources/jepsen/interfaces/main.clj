@@ -20,6 +20,7 @@
 )
 
 (def userClient (atom {:client nil}))
+(def dbInstance (atom {}))
 
 (defn java-client "Method which returns client based on protocol"
   [args]
@@ -43,7 +44,6 @@
                 (-> (:client @userClient) (.setUpDatabase node)))
          (teardown! [_ test node]
                 (-> (:client @userClient) (.teardownDatabase node)))))
-
 
 (defn clientOp [_ _] 
     (let [op (-> (:client @userClient) (.generateOp))]
