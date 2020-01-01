@@ -62,7 +62,7 @@
          {:name "shiva"
           :client (java-client nil)
           :db (db nil)
-	  ;:nemesis (determineNemesis (-> (:client @userClient) (.getNemesis))) 
+	  :nemesis (determineNemesis (-> (:client @userClient) (.getNemesis))) 
           :generator (->> (gen/mix [clientOp]) ; this operation is just as the name suggests, chosen by the client
 					       ; we will leave the operation selection to the user
                           (gen/stagger 1)
