@@ -28,7 +28,7 @@ public class JepsenMain {
     }
 
     public static void main(String[] args) {
-    	JepsenExecutable exec = new JepsenExecutable("Richards-Macbook-Air-2.local", "richardyu", "jinjin123", 10, new NoopClient());
+    	JepsenExecutable exec = new JepsenExecutable("Bobs-Macbook-Air-2.local", "bob", "bob is king", 10, new NoopClient());
         exec.launchTest();
     }
 }
