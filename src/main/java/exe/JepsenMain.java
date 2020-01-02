@@ -1,10 +1,13 @@
 package exe;
 
 import java.io.*;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Random;
 import clojure.lang.ArraySeq;
 import user.jepsen.JepsenExecutable;
 import user.jepsen.Client;
+import user.jepsen.CheckerCallback;
 
 public class JepsenMain {
     public static class NoopClient implements Client {
@@ -26,9 +29,21 @@ public class JepsenMain {
 
         public Object getValue(String opName) { return (new Random()).nextInt(100); }
     }
-
+     
+    public static class NoopChecker implements CheckerCallback {
+    	public NoopChecker() {}
+	
+	public void check(Object checker, Object test, Object history, Object opts) {
+	    System.out.println("Checking stuff");
+	}
+    }
+ 
     public static void main(String[] args) {
     	JepsenExecutable exec = new JepsenExecutable("Richards-Macbook-Air-2.local", "richardyu", "jinjin123", 10, new NoopClient());
+        Map<String, CheckerCallback> checkers = new HashMap<>();
+	checkers.put("perf", null);
+	checkers.put("noop", new NoopChecker());
+	exec.addCheckers(checkers);
         exec.launchTest();
     }
 }

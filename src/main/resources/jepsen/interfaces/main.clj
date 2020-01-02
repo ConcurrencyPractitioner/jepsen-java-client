@@ -16,11 +16,13 @@
             [jepsen.os.centos :as centos]
             [jepsen.control.util :as control-util]
             [jepsen.client :as client])
-  (:import [user.jepsen Client])
+  (:import [user.jepsen Client]
+	   [user.jepsen CheckerCallback]
+	   [java.util HashMap])
 )
 
 (def userClient (atom {:client nil}))
-(def dbInstance (atom {}))
+(def checkers (atom {}))
 
 (defn java-client "Method which returns client based on protocol"
   [args]
@@ -56,13 +58,27 @@
         "partition-random-halves"  (nemesis/partition-random-halves)
       ))
 
+(defn checkerBase [checkerCallback]
+  (reify checker/Checker
+     (check [checker test history opts]
+       (-> checkerCallback (.check checker test history opts))
+       {:valid? true}
+     )))
+
+(defn getChecker [checkerName]
+  (case checkerName
+      "perf" (checker/perf)
+      nil
+  )
+)
+
 (defn java-client-test [opts] "Test to be run"
    (merge tests/noop-test
          opts
          {:name "shiva"
           :client (java-client nil)
           :db (db nil)
-	  :nemesis (determineNemesis (-> (:client @userClient) (.getNemesis))) 
+	  ;:nemesis (determineNemesis (-> (:client @userClient) (.getNemesis))) 
           :generator (->> (gen/mix [clientOp]) ; this operation is just as the name suggests, chosen by the client
 					       ; we will leave the operation selection to the user
                           (gen/stagger 1)
@@ -71,9 +87,7 @@
                                                         (gen/sleep 30)
                                                         {:type :info, :f :stop}])))
                           (gen/time-limit (:time-limit opts)))
-          :checker (checker/compose {; add own latency checker here
-                                      :perf (checker/perf)
-                                    })})
+          :checker (checker/compose @checkers)})
 )
 
 (defn main [args]
@@ -84,6 +98,19 @@
 (defn setClient [localClient]
   (swap! userClient assoc :client localClient)
 )
+
+(defn setCheckerCallbacks [callbacks]
+  (if (nil? callbacks) (info "Not setting callbacks since provided argument is nil.")
+  (let [iter (-> callbacks .keySet .iterator)]
+     (while (.hasNext iter)
+	(let [k (.next iter)
+	      v (-> callbacks (.get k))
+	      preImplementedChecker (getChecker k)]
+	   (if (nil? preImplementedChecker)
+                (swap! checkers assoc k (checkerBase v))
+                (swap! checkers assoc k preImplementedChecker)
+            )))
+)))
 
 (defn -main [& args] "Main method from which test is launched and also place from which Java will call this function." 
   (main args)
