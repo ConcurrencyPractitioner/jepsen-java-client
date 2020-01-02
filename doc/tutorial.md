@@ -33,9 +33,28 @@ This is optional. However, it is highly recommended that the user automate the s
 
 The role of ```Checker``` is to ensure that the history of the test is correct, or otherwise the test is invalidated.
 
-Jepsen already has a couple of checkers implemented that is available to the user. If you wish to add a checker to your test, and it is one already defined by Jepsen, add it using the ```addCheckers``` method available in ```JepsenExecutable```, and mark the value as null.
+Jepsen already has a couple of checkers implemented that is available to the user. If you wish to add a checker to your test, and it is one already defined by Jepsen, add it using the ```addCheckers``` method available in ```JepsenExecutable```, and mark the value as null. See example below:
 
-If you wish to define your own checker, you can make your own custom ```Checker``` through the ```CheckerCallback``` interface. Afterwards, just add that callback (it being the value) along with the corresponding checker name (as the key) to the test through the ```addCheckers``` method as well.
+```java
+
+Map<String, CheckerCallback> checkers = new HashMap<>();
+checkers.put("perf", null);
+  
+```
+
+If you wish to define your own checker, you can make your own custom ```Checker``` through the ```CheckerCallback``` interface. Afterwards, just add that callback (it being the value) along with the corresponding checker name (as the key) to the test through the ```addCheckers``` method as well. 
+
+```java
+public class NoopChecker implements CheckerCallback {
+    public NoopChecker() {}
+	  @Override
+	  public void check(Object test, Object history) {
+	      System.out.println("Checking stuff");
+	  }
+}
+
+checkers.put("Noop", new NoopChecker());
+```
 
 ### Nemesis
 
