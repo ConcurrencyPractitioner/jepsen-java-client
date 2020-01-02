@@ -39,12 +39,18 @@ Jepsen already has a couple of checkers implemented that is available to the use
 
 Map<String, CheckerCallback> checkers = new HashMap<>();
 checkers.put("perf", null);
+
+JepsenExecutable exec = new JepsenExecutable(/* args ommitted */);
+exec.addCheckers(checkers);
   
 ```
 
-If you wish to define your own checker, you can make your own custom ```Checker``` through the ```CheckerCallback``` interface. Afterwards, just add that callback (it being the value) along with the corresponding checker name (as the key) to the test through the ```addCheckers``` method as well. 
+If you wish to define your own checker, you can make your own custom ```Checker``` through the ```CheckerCallback``` interface. Afterwards, just add that callback (it being the value) along with the corresponding checker name (as the key) to the test through the ```addCheckers``` method as well. You cand define multiple checkers as well, so both ```perf``` and your own custom checkers can be combined in one test.
 
 ```java
+
+Map<String, CheckerCallback> checkers = new HashMap<>();
+
 public class NoopChecker implements CheckerCallback {
     public NoopChecker() {}
     @Override
@@ -54,6 +60,9 @@ public class NoopChecker implements CheckerCallback {
 }
 
 checkers.put("Noop", new NoopChecker());
+JepsenExecutable exec = new JepsenExecutable(/* args ommitted */);
+exec.addCheckers(checkers);
+
 ```
 
 ### Nemesis
