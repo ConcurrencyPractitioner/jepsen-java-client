@@ -31,7 +31,11 @@ This is optional. However, it is highly recommended that the user automate the s
 
 ### Checker
 
-Will be available in future release. Coming soon.
+The role of ```Checker``` is to ensure that the history of the test is correct, or otherwise the test is invalidated.
+
+Jepsen already has a couple of checkers implemented that is available to the user. If you wish to add a checker to your test, and it is one already defined by Jepsen, add it using the ```addCheckers``` method available in ```JepsenExecutable```, and mark the value as null.
+
+If you wish to define your own checker, you can make your own custom ```Checker``` through the ```CheckerCallback``` interface. Afterwards, just add that callback (it being the value) along with the corresponding checker name (as the key) to the test through the ```addCheckers``` method as well.
 
 ### Nemesis
 
