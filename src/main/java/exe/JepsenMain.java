@@ -33,7 +33,7 @@ public class JepsenMain {
     public static class NoopChecker implements CheckerCallback {
     	public NoopChecker() {}
 	
-	public void check(Object checker, Object test, Object history, Object opts) {
+	public void check(Object test, Object history) {
 	    System.out.println("Checking stuff");
 	}
     }

@@ -60,8 +60,8 @@
 
 (defn checkerBase [checkerCallback]
   (reify checker/Checker
-     (check [checker test history opts]
-       (-> checkerCallback (.check checker test history opts))
+     (check [_ test history _]
+       (-> checkerCallback (.check test history))
        {:valid? true}
      )))
 
