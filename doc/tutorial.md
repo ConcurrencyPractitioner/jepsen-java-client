@@ -47,10 +47,10 @@ If you wish to define your own checker, you can make your own custom ```Checker`
 ```java
 public class NoopChecker implements CheckerCallback {
     public NoopChecker() {}
-	  @Override
-	  public void check(Object test, Object history) {
-	      System.out.println("Checking stuff");
-	  }
+    @Override
+    public void check(Object test, Object history) {
+    	System.out.println("Checking stuff");
+    }
 }
 
 checkers.put("Noop", new NoopChecker());
