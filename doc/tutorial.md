@@ -40,7 +40,7 @@ Jepsen already has a couple of checkers implemented that is available to the use
 Map<String, CheckerCallback> checkers = new HashMap<>();
 checkers.put("perf", null);
 
-JepsenExecutable exec = new JepsenExecutable(/* args ommitted */);
+JepsenExecutable exec = new JepsenExecutable(/* arguments omitted */);
 exec.addCheckers(checkers);
   
 ```
@@ -60,7 +60,7 @@ public class NoopChecker implements CheckerCallback {
 }
 
 checkers.put("Noop", new NoopChecker());
-JepsenExecutable exec = new JepsenExecutable(/* args ommitted */);
+JepsenExecutable exec = new JepsenExecutable(/* arguments omitted */);
 exec.addCheckers(checkers);
 
 ```
