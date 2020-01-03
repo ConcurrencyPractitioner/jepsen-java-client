@@ -21,9 +21,9 @@ public class JepsenMain {
     }
  
     public static void main(String[] args) {
-        JepsenConfig config = (new JepsenConfig()).add(JepsenConfig.NODES, "Richards-MacBook-Air-2.local")
-		.add(JepsenConfig.USERNAME, "richardyu")
-		.add(JepsenConfig.PASSWORD, "jinjin123")
+        JepsenConfig config = (new JepsenConfig()).add(JepsenConfig.NODES, "Bobs-MacBook-Air-2.local")
+		.add(JepsenConfig.USERNAME, "bob")
+		.add(JepsenConfig.PASSWORD, "bob is king")
 		.add(JepsenConfig.TEST_NAME, "sample_test")
 		.add(JepsenConfig.TIME_LIMIT, "10");
 	(new JepsenExecutable(config)).setClient(new NoopClient()).addChecker("perf", null)
