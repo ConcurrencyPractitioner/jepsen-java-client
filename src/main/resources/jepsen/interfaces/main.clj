@@ -21,6 +21,7 @@
 	   [java.util HashMap])
 )
 
+(def testName (atom {:header "test"}))
 (def userClient (atom {:client nil}))
 (def checkers (atom {}))
 
@@ -75,7 +76,7 @@
 (defn java-client-test [opts] "Test to be run"
    (merge tests/noop-test
          opts
-         {:name "shiva"
+         {:name (:header @testName)
           :client (java-client nil)
           :db (db nil)
 	  ;:nemesis (determineNemesis (-> (:client @userClient) (.getNemesis))) 
@@ -97,6 +98,10 @@
 
 (defn setClient [localClient]
   (swap! userClient assoc :client localClient)
+)
+
+(defn setTestName [test_name]
+  (swap! testName assoc :header test_name)
 )
 
 (defn setCheckerCallbacks [callbacks]
