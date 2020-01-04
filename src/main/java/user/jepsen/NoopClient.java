@@ -5,15 +5,6 @@ import java.util.Random;
 public class NoopClient implements Client {
     public NoopClient() {}
 
-    public Object setUpDatabase(String node) {
-	System.out.println("Setup DB"); 
-	return "NOOP_DB";
-    }
-
-    public void teardownDatabase(String node) { 
-	System.out.println("Torndown DB"); 
-    }
-
     public void teardownClient(Object args) { 
 	System.out.println("Torndown client " + args); 
     }
@@ -26,10 +17,6 @@ public class NoopClient implements Client {
     public Object openClient(String node) { 
         System.out.println("Have opened client"); 
 	return "NOOP_CLIENT"; 
-    }
-
-    public String getNemesis() { 
-	return "partition-random-halves"; 
     }
 
     public String generateOp() { 

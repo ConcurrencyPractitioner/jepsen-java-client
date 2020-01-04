@@ -10,6 +10,7 @@ import user.jepsen.Client;
 import user.jepsen.CheckerCallback;
 import user.jepsen.JepsenConfig;
 import user.jepsen.NoopClient;
+import user.jepsen.NoopDatabase;
 
 public class JepsenMain {
     public static class NoopChecker implements CheckerCallback {
@@ -26,7 +27,9 @@ public class JepsenMain {
 		.add(JepsenConfig.PASSWORD, "jinjin123")
 		.add(JepsenConfig.TEST_NAME, "sample_test")
 		.add(JepsenConfig.TIME_LIMIT, "10");
-	(new JepsenExecutable(config)).setClient(new NoopClient()).addChecker("perf", null)
+	(new JepsenExecutable(config)).setClient(new NoopClient())
+		.setDatabase(new NoopDatabase())
+ 		.addChecker("perf", null)
 		.addChecker("noop", new NoopChecker())
 		.launchTest();
     }

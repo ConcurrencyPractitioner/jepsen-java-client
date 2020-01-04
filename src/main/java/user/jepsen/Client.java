@@ -6,16 +6,6 @@ import java.lang.*;
 
 public interface Client {
     /**
-     * This method should be used to first install a database server onto the given node, and then launch it so that it is ready to receive operations.
-     */
-    public Object setUpDatabase(String node);
-
-    /**
-     * Conversely to {@code setUpDatabase(Object, String)}, this method should first stop the database server, and then uninstall it.
-     */
-    public void teardownDatabase(String node);
-
-    /**
      * The client is a connection to the server through which operations are sent (such as reads, writes, and compare and sets (CASs)).
      * @param args This argument should be changed according to user requirements. It should be the client instance that represents the pipe between user and server
      *             and is the result returned by {@code openClient(String)} 
@@ -37,12 +27,6 @@ public interface Client {
      *         and {@code teardownClient(Object)}
      */
     public Object openClient(String node);
-    
-    /**
-     * This is chosen upon the initialization of the test. The user can currently choose from the two following options:
-     * "partition-random-halves" or "partition-majorities-ring". These are different types of failure situations Jepsen can stimulate.
-     */
-    public String getNemesis();
  
     /**
      * Called by the Jepsen test to generate the name of the operation to be performed. Whether the operation generation is randomized or follows a specific pattern

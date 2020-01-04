@@ -24,6 +24,8 @@
 (def testName (atom {:header "test"}))
 (def userClient (atom {:client nil}))
 (def checkers (atom {}))
+(def enemy (atom {:nemesis "partition-random-halves"}))
+(def database (atom {:db nil}))
 
 (defn java-client "Method which returns client based on protocol"
   [args]
@@ -44,9 +46,9 @@
 (defn db [args] "Helps setup and teardown cluster of database being tested"
   (reify db/DB
          (setup! [_ test node]
-                (-> (:client @userClient) (.setUpDatabase node)))
+                (-> (:db @database) (.setUpDatabase node)))
          (teardown! [_ test node]
-                (-> (:client @userClient) (.teardownDatabase node)))))
+                (-> (:db @database) (.teardownDatabase node)))))
 
 (defn clientOp [_ _] 
     (let [op (-> (:client @userClient) (.generateOp))]
@@ -56,7 +58,7 @@
 (defn determineNemesis [nemesisName] 
       (case nemesisName
         "partition-majorities-ring" (nemesis/partition-majorities-ring)
-        "partition-random-halves"  (nemesis/partition-random-halves)
+        (nemesis/partition-random-halves)
       ))
 
 (defn checkerBase [checkerCallback]
@@ -79,7 +81,7 @@
          {:name (:header @testName)
           :client (java-client nil)
           :db (db nil)
-	  ;:nemesis (determineNemesis (-> (:client @userClient) (.getNemesis))) 
+	  ;:nemesis (determineNemesis (:nemesis @enemy)) 
           :generator (->> (gen/mix [clientOp]) ; this operation is just as the name suggests, chosen by the client
 					       ; we will leave the operation selection to the user
                           (gen/stagger 1)
@@ -102,6 +104,14 @@
 
 (defn setTestName [test_name]
   (swap! testName assoc :header test_name)
+)
+
+(defn setDatabase [userDb]
+  (swap! database assoc :db userDb)
+)
+
+(defn setNemesis [chaosInjector]
+  (swap! enemy assoc :nemesis chaosInjector)
 )
 
 (defn setCheckerCallbacks [callbacks]

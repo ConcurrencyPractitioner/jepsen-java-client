@@ -9,6 +9,7 @@ public class JepsenConfig {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String NODES = "nodes";
+    public static final String NEMESIS = "nemesis";
 
     private final Map<String, String> properties;
 
