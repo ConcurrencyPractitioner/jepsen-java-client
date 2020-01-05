@@ -27,6 +27,23 @@
 (def enemy (atom {:nemesis "partition-random-halves"}))
 (def database (atom {:db nil}))
 
+
+(defn clientOp [_ _] 
+    (let [op (-> (:client @userClient) (.generateOp))]
+        {:type :invoke, :f op, :value (-> (:client @userClient) (.getValue op))})
+)
+
+(defn defaultGenerator [opts]
+     (->> (gen/mix [clientOp]) ; this operation is just as the name suggests, chosen by the client
+			       ; we will leave the operation selection to the user
+          (gen/stagger 1)
+          (gen/nemesis (gen/seq (cycle [(gen/sleep 30)
+                                        {:type :info, :f :start}
+                                        (gen/sleep 30)
+                                        {:type :info, :f :stop}])))
+          (gen/time-limit (:time-limit opts)))
+)
+
 (defn java-client "Method which returns client based on protocol"
   [args]
   (reify client/Client
@@ -50,11 +67,6 @@
          (teardown! [_ test node]
                 (-> (:db @database) (.teardownDatabase node)))))
 
-(defn clientOp [_ _] 
-    (let [op (-> (:client @userClient) (.generateOp))]
-        {:type :invoke, :f op, :value (-> (:client @userClient) (.getValue op))})
-)
-
 (defn determineNemesis [nemesisName] 
       (case nemesisName
         "partition-majorities-ring" (nemesis/partition-majorities-ring)
@@ -75,6 +87,28 @@
   )
 )
 
+(defn baseGenerator [generatorCallback]
+  (reify gen/Generator
+    (op [generator test process]
+	(let [opMap (-> generatorCallback (.generateOp generator test process) .getMap)
+	      iter (-> opMap .entrySet .iterator)
+	      res (atom {})]
+		(while (.hasNext iter)
+		    (let [entry (.next iter)
+			  k (.getKey entry)
+			  v (.getValue entry)]
+		        (case k
+			    "op-name" (swap! res assoc :f v)
+			    "start" (swap! res assoc :f :start)
+			    "stop" (swap! res assoc :f :stop)
+			    "info" (swap! res assoc :type :info)
+			    "invoke" (swap! res assoc :type :invoke)
+			    "op-value" (swap! res assoc :value v)
+			)   
+		))
+	     @res
+	))))
+
 (defn java-client-test [opts] "Test to be run"
    (merge tests/noop-test
          opts
@@ -82,14 +116,7 @@
           :client (java-client nil)
           :db (db nil)
 	  ;:nemesis (determineNemesis (:nemesis @enemy)) 
-          :generator (->> (gen/mix [clientOp]) ; this operation is just as the name suggests, chosen by the client
-					       ; we will leave the operation selection to the user
-                          (gen/stagger 1)
-                          (gen/nemesis (gen/seq (cycle [(gen/sleep 30)
-                                                        {:type :info, :f :start}
-                                                        (gen/sleep 30)
-                                                        {:type :info, :f :stop}])))
-                          (gen/time-limit (:time-limit opts)))
+          :generator (defaultGenerator opts) ; this operation is just as the name suggests, chosen by the client
           :checker (checker/compose @checkers)})
 )
 
