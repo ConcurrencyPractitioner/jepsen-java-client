@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/ConcurrencyPractitioner/jepsen-java-client.svg?branch=master)](https://travis-ci.com/ConcurrencyPractitioner/jepsen-java-client)
 [![License](https://img.shields.io/badge/License-EPL%202.0-blue.svg)](https://opensource.org/licenses/EPL-2.0)
 
-Latest version: v1.0.2, Available here:
+Latest version: v1.1.0, Available here:
 https://github.com/ConcurrencyPractitioner/jepsen-java-client/releases
 
 ## Design
@@ -17,9 +17,8 @@ This is a Java wrapper for the Jepsen fault tolerance testing framework which is
 ## Running the test
 
 There are a couple of simple steps to run this test.
-  1. Currently, there are a number of simple components to this test. Provided in the ```user.jepsen``` package are two
-     classes: ```JepsenExecutable``` and the ```Client``` interface. In the latter class, a series of callbacks must be
-     implemented by the user before the test is launched.
+  1. Currently, there are a number of simple components to this test. Provided in the ```user.jepsen``` package are a couple 
+     interfaces which the user would be required to implement before the test is launched.
   2. Construct a ```JepsenExecutable``` instance, and then you can straight away launch the test. This library is relatively
      simple and should not be hard to do.
 
