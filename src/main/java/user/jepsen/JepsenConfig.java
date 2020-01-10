@@ -10,6 +10,8 @@ public class JepsenConfig {
     public static final String PASSWORD = "password";
     public static final String NODES = "nodes";
     public static final String NEMESIS = "nemesis";
+    public static final String CLIENT_OP_WAIT_TIME = "client.op.wait.time";
+    public static final String NEMESIS_OP_WAIT_TIME = "nemesis.op.wait.time";
 
     private final Map<String, String> properties;
 
@@ -21,6 +23,8 @@ public class JepsenConfig {
 	properties.put(JepsenConfig.TIME_LIMIT, "90");
 	properties.put(JepsenConfig.TEST_NAME, "random-test");
 	properties.put(JepsenConfig.PASSWORD, "root");
+    	properties.put(JepsenConfig.CLIENT_OP_WAIT_TIME, "1");
+	properties.put(JepsenConfig.NEMESIS_OP_WAIT_TIME, "30");
     }
 
     public JepsenConfig add(String property, String value) {

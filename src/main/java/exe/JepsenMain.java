@@ -53,12 +53,20 @@ public class JepsenMain {
 		.add(JepsenConfig.PASSWORD, "jinjin123")
 		.add(JepsenConfig.NEMESIS, "partition-majorities-ring")
 		.add(JepsenConfig.TEST_NAME, "sample_test")
-		.add(JepsenConfig.TIME_LIMIT, "12");
+		.add(JepsenConfig.TIME_LIMIT, "12")
+		.add(JepsenConfig.CLIENT_OP_WAIT_TIME, "1")
+		.add(JepsenConfig.NEMESIS_OP_WAIT_TIME, "5");
+
+	final List<String> nemesisOps = new ArrayList<>();
+	nemesisOps.add("Noop start");
+	nemesisOps.add("Noop end");
+
 	(new JepsenExecutable(config)).setClient(new NoopClient())
 		.setDatabase(new NoopDatabase())
  		.addChecker("perf", null)
 		.addChecker("noop", new NoopChecker())
 		.addNemesis(new Nemesis())
+		.setNemesisOps(nemesisOps)
 		.launchTest();
     }
 }

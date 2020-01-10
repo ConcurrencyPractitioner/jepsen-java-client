@@ -26,8 +26,9 @@
 (def checkers (atom {}))
 (def enemy (atom {:nemesis "partition-random-halves"}))
 (def database (atom {:db nil}))
-(def generators (atom []))
+(def nemesisOps (atom []))
 (def nemesisCallbacks (atom {}))
+(def clientOpGapTime (atom {:wait 1}))
 
 (defn clientOp [_ _] 
     (let [op (-> (:client @userClient) (.generateOp))]
@@ -37,11 +38,8 @@
 (defn defaultGenerator [opts]
      (->> (gen/mix [clientOp]) ; this operation is just as the name suggests, chosen by the client
 			       ; we will leave the operation selection to the user
-          (gen/stagger 1)
-          (gen/nemesis (gen/seq (cycle [(gen/sleep 5)
-                                        {:type :info, :f "Noop start"}
-                                        (gen/sleep 5)
-                                        {:type :info, :f "Noop end"}])))
+          (gen/stagger (:wait @clientOpGapTime))
+          (gen/nemesis (gen/seq (cycle @nemesisOps)))
           (gen/time-limit (:time-limit opts)))
 )
 
@@ -169,13 +167,13 @@
             )))
 )))
 
-(defn setGeneratorCallbacks [callbacks]
-   (if (nil? callbacks) (swap! generators conj clientOp)
-   	(let [iter (-> callbacks .iterator)]
+(defn setNemesisOps [ops gap]
+   (if (nil? ops) (info "Do nothing")
+   	(let [iter (-> ops .iterator)]
              (while (.hasNext iter)
-        	(let [v (.next iter)
-                      userGen (baseGenerator v)]
-   	(swap! generators conj userGen)
+        	(let [op (.next iter)]
+	(swap! nemesisOps conj (gen/sleep gap))
+   	(swap! nemesisOps conj {:type :info, :f op})
     ))))
 )
 
@@ -195,6 +193,10 @@
 		    (swap! nemesisCallbacks assoc (getOpsList (.getPossibleOps entry)) (base-nemesis entry))))
 	)
    )
+)
+
+(defn setClientOpWaitTime [wait]
+    (swap! clientOpGapTime assoc :wait wait)
 )
 
 (defn -main [& args] "Main method from which test is launched and also place from which Java will call this function." 
