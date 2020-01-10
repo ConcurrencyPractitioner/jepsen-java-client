@@ -26,7 +26,8 @@
 (def checkers (atom {}))
 (def enemy (atom {:nemesis "partition-random-halves"}))
 (def database (atom {:db nil}))
-
+(def generators (atom []))
+(def nemesisCallbacks (atom {}))
 
 (defn clientOp [_ _] 
     (let [op (-> (:client @userClient) (.generateOp))]
@@ -37,12 +38,24 @@
      (->> (gen/mix [clientOp]) ; this operation is just as the name suggests, chosen by the client
 			       ; we will leave the operation selection to the user
           (gen/stagger 1)
-          (gen/nemesis (gen/seq (cycle [(gen/sleep 30)
-                                        {:type :info, :f :start}
-                                        (gen/sleep 30)
-                                        {:type :info, :f :stop}])))
+          (gen/nemesis (gen/seq (cycle [(gen/sleep 5)
+                                        {:type :info, :f "Noop start"}
+                                        (gen/sleep 5)
+                                        {:type :info, :f "Noop end"}])))
           (gen/time-limit (:time-limit opts)))
 )
+
+(defn base-nemesis
+  [nemesisCallback]
+  (reify nemesis/Nemesis
+    (setup! [this test] (-> nemesisCallback .setup) this)
+
+    (invoke! [this test op] 
+	(-> nemesisCallback (.invokeOp (:f op)))
+	(assoc op :value (:f op)))
+
+    (teardown! [this test]
+      (->  nemesisCallback .teardown))))
 
 (defn java-client "Method which returns client based on protocol"
   [args]
@@ -115,8 +128,10 @@
          {:name (:header @testName)
           :client (java-client nil)
           :db (db nil)
-	  ;:nemesis (determineNemesis (:nemesis @enemy)) 
-          :generator (defaultGenerator opts) ; this operation is just as the name suggests, chosen by the client
+	  :nemesis (nemesis/compose @nemesisCallbacks) 
+          :generator (defaultGenerator opts);(->> (gen/mix @generators) 
+		;	  (gen/stagger 1)
+		;	  (gen/time-limit (:time-limit opts))) ; this operation is just as the name suggests, chosen by the client
           :checker (checker/compose @checkers)})
 )
 
@@ -153,6 +168,34 @@
                 (swap! checkers assoc k preImplementedChecker)
             )))
 )))
+
+(defn setGeneratorCallbacks [callbacks]
+   (if (nil? callbacks) (swap! generators conj clientOp)
+   	(let [iter (-> callbacks .iterator)]
+             (while (.hasNext iter)
+        	(let [v (.next iter)
+                      userGen (baseGenerator v)]
+   	(swap! generators conj userGen)
+    ))))
+)
+
+(defn getOpsList [arrayList]
+    (let [iter (.iterator arrayList)
+	  convertedList (atom [])]
+        (while (.hasNext iter)
+	    (let [entry (.next iter)]
+		(swap! convertedList conj entry)))
+         (set @convertedList)))
+
+(defn setNemesisCallbacks [callbacks]
+   (if (nil? callbacks) (info "Doing nothing")
+       	(let [iter (-> callbacks .iterator)]
+	    (while (.hasNext iter)
+	    	(let [entry (.next iter)]
+		    (swap! nemesisCallbacks assoc (getOpsList (.getPossibleOps entry)) (base-nemesis entry))))
+	)
+   )
+)
 
 (defn -main [& args] "Main method from which test is launched and also place from which Java will call this function." 
   (main args)

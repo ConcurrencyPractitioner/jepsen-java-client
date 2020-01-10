@@ -16,6 +16,8 @@ public class JepsenExecutable {
     private Map<String, CheckerCallback> checkerCallbacks;
     private final String testName;
     private final String nemesis;
+    private ArrayList<GeneratorCallback> generators;
+    private ArrayList<NemesisCallback> nemesisCallbacks;
  
     public JepsenExecutable(final String nodes, final String username, final String password, final long timeLimit, final Client client) {
     	this.nodes = nodes;
@@ -27,6 +29,8 @@ public class JepsenExecutable {
 	this.testName = "test";
 	this.nemesis = "partition-random-halves";
 	this.database = new NoopDatabase();
+	this.generators = null;
+	this.nemesisCallbacks = null;
     }
     
     public JepsenExecutable(final JepsenConfig config) {
@@ -40,6 +44,8 @@ public class JepsenExecutable {
 	this.client = new NoopClient();
 	this.database = new NoopDatabase();
 	this.nemesis = properties.get(JepsenConfig.NEMESIS);
+	this.generators = null;
+	this.nemesisCallbacks = null;
     }
 
     public JepsenExecutable setClient(final Client client) {
@@ -67,6 +73,21 @@ public class JepsenExecutable {
         return this;
     }
 
+    public JepsenExecutable addGenerator(final GeneratorCallback callback) {
+    	if (callback == null) return this;
+	if (generators == null) generators = new ArrayList<>();
+	generators.add(callback);
+	return this;
+    }
+
+    public JepsenExecutable addNemesis(final NemesisCallback callback) {
+        if (callback == null) return this; 
+	if (nemesisCallbacks == null)
+	    nemesisCallbacks = new ArrayList<>();
+	nemesisCallbacks.add(callback);
+	return this;
+    }
+
     public void launchTest() {
         try {
 	    RT.loadResourceScript("jepsen/interfaces/main.clj", true);
@@ -76,6 +97,8 @@ public class JepsenExecutable {
 	    RT.var("jepsen.interfaces", "setDatabase").invoke(database);
 	    RT.var("jepsen.interfaces", "setNemesis").invoke(nemesis);
 	    RT.var("jepsen.interfaces", "setCheckerCallbacks").invoke(checkerCallbacks);
+	    RT.var("jepsen.interfaces", "setGeneratorCallbacks").invoke(generators);
+	    RT.var("jepsen.interfaces", "setNemesisCallbacks").invoke(nemesisCallbacks);
 	    RT.var("jepsen.interfaces", "main").invoke(args);
         } catch (IOException exc) { System.out.println("Found exception " + exc); }
     }

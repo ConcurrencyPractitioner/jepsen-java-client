@@ -53,7 +53,7 @@ public class Operation {
 	return this;
     }
 
-    public Operation setOpValue(String opName) {
+    public Operation setOpValue(String opValue) {
  	if (!isCorrectCategory(OP_VALUE)) return this;
 	opMap.put("opValue", opValue);
 	return this;	
