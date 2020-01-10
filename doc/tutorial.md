@@ -72,6 +72,6 @@ The user can choose from a variety of failures that Jepsen can run on the test c
 The current options supported are:
   1. partition-majorities-ring
   2. partition-random-halves
-  
-The ```getNemesis``` method is called to retrieve the type of failure that the user wishes to stimulate. 
+
+The user can also define their own failures. In that case, use the ```NemesisCallback``` provided to create your own fault injection processes under the Jepsen framework. The user must also define the order of nemesis operations which will be peformed. More information is available in the ```parameters``` section of the documentation.
 
