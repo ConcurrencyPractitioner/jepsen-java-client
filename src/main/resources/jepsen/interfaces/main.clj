@@ -127,9 +127,7 @@
           :client (java-client nil)
           :db (db nil)
 	  :nemesis (nemesis/compose @nemesisCallbacks) 
-          :generator (defaultGenerator opts);(->> (gen/mix @generators) 
-		;	  (gen/stagger 1)
-		;	  (gen/time-limit (:time-limit opts))) ; this operation is just as the name suggests, chosen by the client
+          :generator (defaultGenerator opts)
           :checker (checker/compose @checkers)})
 )
 
