@@ -53,7 +53,7 @@ public class JepsenMain {
 		.add(JepsenConfig.PASSWORD, "jinjin123")
 		.add(JepsenConfig.NEMESIS, "partition-majorities-ring")
 		.add(JepsenConfig.TEST_NAME, "sample_test")
-		.add(JepsenConfig.TIME_LIMIT, "10");
+		.add(JepsenConfig.TIME_LIMIT, "12");
 	(new JepsenExecutable(config)).setClient(new NoopClient())
 		.setDatabase(new NoopDatabase())
  		.addChecker("perf", null)
