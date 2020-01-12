@@ -1,9 +1,5 @@
 package user.jepsen;
 
-import java.util.*;
-import java.io.*;
-import java.lang.*;
-
 public interface Client {
     /**
      * The client is a connection to the server through which operations are sent (such as reads, writes, and compare and sets (CASs)).
@@ -23,7 +19,7 @@ public interface Client {
     /**
      * As the name suggests, the user should open a connection to the database cluster by constructing a client.
      * @param node The IP address of the cluster which the user should connect to.
-     * @return the client instance that is connected to the cluster, would be passed in as the first parameter for {@code invokeClient(Object, opName, inputValue)}
+     * @return the client instance that is connected to the cluster, would be passed in as the first parameter for {@code invokeClient(Object, String, Object)}
      *         and {@code teardownClient(Object)}
      */
     public Object openClient(String node);

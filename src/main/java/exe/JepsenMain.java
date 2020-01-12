@@ -1,14 +1,8 @@
 package exe;
 
-import java.io.*;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
-import clojure.lang.ArraySeq;
 import user.jepsen.JepsenExecutable;
-import user.jepsen.Client;
 import user.jepsen.CheckerCallback;
 import user.jepsen.JepsenConfig;
 import user.jepsen.NoopClient;
@@ -48,9 +42,9 @@ public class JepsenMain {
     }
  
     public static void main(String[] args) {
-        JepsenConfig config = (new JepsenConfig()).add(JepsenConfig.NODES, "Bobs-MacBook-Air-2.local")
-		.add(JepsenConfig.USERNAME, "bob")
-		.add(JepsenConfig.PASSWORD, "bob is king")
+        JepsenConfig config = (new JepsenConfig()).add(JepsenConfig.NODES, "Richards-MacBook-Air-2.local")
+		.add(JepsenConfig.USERNAME, "richardyu")
+		.add(JepsenConfig.PASSWORD, "jinjin123")
 		 //.add(JepsenConfig.NEMESIS, "partition-majorities-ring")
 		.add(JepsenConfig.TEST_NAME, "sample_test")
 		.add(JepsenConfig.TIME_LIMIT, "13")
