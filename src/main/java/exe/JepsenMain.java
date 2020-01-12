@@ -51,15 +51,17 @@ public class JepsenMain {
         JepsenConfig config = (new JepsenConfig()).add(JepsenConfig.NODES, "Bobs-MacBook-Air-2.local")
 		.add(JepsenConfig.USERNAME, "bob")
 		.add(JepsenConfig.PASSWORD, "bob is king")
-		.add(JepsenConfig.NEMESIS, "partition-majorities-ring")
+		 //.add(JepsenConfig.NEMESIS, "partition-majorities-ring")
 		.add(JepsenConfig.TEST_NAME, "sample_test")
-		.add(JepsenConfig.TIME_LIMIT, "12")
+		.add(JepsenConfig.TIME_LIMIT, "13")
 		.add(JepsenConfig.CLIENT_OP_WAIT_TIME, "1")
-		.add(JepsenConfig.NEMESIS_OP_WAIT_TIME, "5");
+		.add(JepsenConfig.NEMESIS_OP_WAIT_TIME, "3");
 
 	final List<String> nemesisOps = new ArrayList<>();
 	nemesisOps.add("Noop start");
+	nemesisOps.add("start");
 	nemesisOps.add("Noop end");
+	nemesisOps.add("stop");
 
 	(new JepsenExecutable(config)).setClient(new NoopClient())
 		.setDatabase(new NoopDatabase())

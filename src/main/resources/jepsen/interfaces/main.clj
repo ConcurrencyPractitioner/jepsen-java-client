@@ -81,7 +81,8 @@
 (defn determineNemesis [nemesisName] 
       (case nemesisName
         "partition-majorities-ring" (nemesis/partition-majorities-ring)
-        (nemesis/partition-random-halves)
+        "partition-random-halves" (nemesis/partition-random-halves)
+	nemesis/noop
       ))
 
 (defn checkerBase [checkerCallback]
@@ -126,7 +127,7 @@
          {:name (:header @testName)
           :client (java-client nil)
           :db (db nil)
-	  :nemesis (nemesis/compose @nemesisCallbacks) 
+	  :nemesis (nemesis/compose (assoc @nemesisCallbacks #{:start :stop} (determineNemesis (:nemesis @enemy)))) 
           :generator (defaultGenerator opts)
           :checker (checker/compose @checkers)})
 )
@@ -171,7 +172,11 @@
              (while (.hasNext iter)
         	(let [op (.next iter)]
 	(swap! nemesisOps conj (gen/sleep gap))
-   	(swap! nemesisOps conj {:type :info, :f op})
+	(case op
+	    "start" (swap! nemesisOps conj {:type :info, :f :start})
+	    "stop" (swap! nemesisOps conj {:type :info, :f :stop})
+            (swap! nemesisOps conj {:type :info, :f op})
+	)
     ))))
 )
 

@@ -19,7 +19,7 @@ public class JepsenConfig {
 	properties = new HashMap<>();
 	properties.put(JepsenConfig.NODES, "localhost:9092");
 	properties.put(JepsenConfig.USERNAME, "root");
-	properties.put(JepsenConfig.NEMESIS, "partition-random-halves");
+	properties.put(JepsenConfig.NEMESIS, "noop");
 	properties.put(JepsenConfig.TIME_LIMIT, "90");
 	properties.put(JepsenConfig.TEST_NAME, "random-test");
 	properties.put(JepsenConfig.PASSWORD, "root");
