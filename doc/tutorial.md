@@ -75,3 +75,11 @@ The current options supported are:
 
 The user can also define their own failures. In that case, use the ```NemesisCallback``` provided to create your own fault injection processes under the Jepsen framework. The user must also define the order of nemesis operations which will be peformed. More information is available in the ```parameters``` section of the documentation.
 
+### Operation Generation
+
+Client operations are generated through the ```generateOp``` found under the ```client``` interface. 
+
+Please notice that you can stagger the time between operations (using the configs ```JepsenConfig.NEMESIS_OP_WAIT_TIME``` and ```JepsenConfig.CLIENT_OP_WAIT_TIME```) 
+
+For nemesis operations, a person will be able to define their own list of operations (string names) which Jepsen will cycle through repeatedly during the test execution. In the sample test available in this repository, one can find a complete example of what features are currently available in this library.
+
