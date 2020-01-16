@@ -45,7 +45,7 @@ public class JepsenMain {
         JepsenConfig config = (new JepsenConfig()).add(JepsenConfig.NODES, "Bobs-MacBook-Air-2.local")
 		.add(JepsenConfig.USERNAME, "bob")
 		.add(JepsenConfig.PASSWORD, "bob is king")
-		 //.add(JepsenConfig.NEMESIS, "partition-majorities-ring")
+		.add(JepsenConfig.NEMESIS, "partition-majorities-ring")
 		.add(JepsenConfig.TEST_NAME, "sample_test")
 		.add(JepsenConfig.TIME_LIMIT, "13")
 		.add(JepsenConfig.CLIENT_OP_WAIT_TIME, "1")
