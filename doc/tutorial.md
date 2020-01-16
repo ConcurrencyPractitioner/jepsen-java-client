@@ -83,3 +83,4 @@ Please notice that you can stagger the time between operations (using the config
 
 For nemesis operations, a person will be able to define their own list of operations (string names) which Jepsen will cycle through repeatedly during the test execution. In the sample test available in this repository, one can find a complete example of what features are currently available in this library.
 
+In the nemesis interface, one is able to define a list of operations that the nemesis performs. To trigger operations by nemesises that can be configured by ```JepsenConfig.NEMESIS```, use the string ```start``` or ```stop```. As implied, start triggers the fault, and stop heals the network.
